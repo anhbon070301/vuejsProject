@@ -1,0 +1,32 @@
+{
+  "name": "vuejs-learn",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check build-only",
+    "preview": "vite preview --port 4173",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "axios": "^1.1.3",
+    "bootstrap": "^5.2.2",
+    "bootstrap-vue": "^2.22.0",
+    "pinia": "^2.0.23",
+    "v-viewer": "^1.6.4",
+    "vee-validate": "^4.7.2",
+    "vue": "^3.2.41",
+    "vue-router": "^4.1.5",
+    "vuex": "^4.1.0",
+    "vuex-persistedstate": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.56",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "@vue/tsconfig": "^0.1.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "~4.7.4",
+    "vite": "^3.0.9",
+    "vue-tsc": "^0.40.7"
+  }
+}
