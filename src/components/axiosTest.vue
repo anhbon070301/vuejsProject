@@ -1,4 +1,6 @@
 <template>
+  <ModalVue> </ModalVue>
+  <div>{{test}}</div>
   <table>
     <thead>
       <tr>
@@ -14,14 +16,18 @@
         <td>
           <button
             class="btn btn-primary"
-            v-on:click="login({name: this.iptName ,pass: this.iptPass})"
+            v-on:click="postName"
+          >Submit</button>
+                    <button
+            class="btn btn-primary"
+            v-on:click="testButton"
           >Submit</button>
         </td>
-        <td>{{ this.iptName }}</td>
+
       </tr>
     </thead>
     <tbody>
-      <tr v-for="product in $store.state.product">
+      <tr v-for="product in this.$store.state.product">
         <td>{{ product.name }}</td>
         <td>{{ product.price }}</td>
         <td>{{ product.image }}</td>
@@ -38,23 +44,40 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import Auth from '../sevice/auth'
+import ModalVue from '../views/ModalVue.vue'
+import tinhToan from '../components/tinhToan.vue'
+
 export default {
-  created() {
-    this.$store.dispatch("getProduct");
-  },
   data() {
     return {
+      info: [],
       iptName: "",
-      iptPass: ""
+      iptPass: "",
     };
   },
   computed: {
-    // ...mapGetters('counter'),
-     ...mapMutations('SET_ACCOUNT'),
+    ...mapGetters(['test']),
+    //  ...mapMutations('SET_ACCOUNT'),
+  },
+  created() {
+    this.$store.dispatch("getProduct");
   },
   methods: {
-    ...mapActions(["login"])
+    ...mapActions(["login", "testButton"]),
+    postName() {
+        const credentials = {
+          postName: this.iptName,
+          name: this.iptPass
+        };
+        Auth.postName(credentials);
+    }
+  },
+
+  components: {
+    ModalVue,
+    tinhToan
   }
 };
 </script>

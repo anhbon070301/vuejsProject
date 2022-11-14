@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-sm-4" style="margin-left: 38%; margin-top: 10%;" v-if="checkAuthen === false">
+      <div class="col-sm-4" style="margin-left: 38%; margin-top: 10%;"  v-if="this.$store.state.token === ''">
         <h3 style="text-align: center;">Sign in</h3>
 
         <input type="text" name="email" class="form-control" placeholder="Email" v-model="username" />
@@ -16,7 +16,7 @@
         />
         <br />
 
-        <p v-if="msg">{{ msg }}</p>
+        <p style="color: red" v-if="msg">{{ msg }}</p>
         <br />
 
         <div style="margin-left: 25%;">
@@ -30,6 +30,7 @@
 
 <script>
 import Auth from "/xampp/htdocs/vuejs-learn/src/sevice/auth";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   data() {
@@ -42,10 +43,7 @@ export default {
   },
 
   methods: {
-    checkAuthen() {
-      return this.getUserId !== undefined ? true : false;
-    },
-
+    ...mapActions(['checkAuthen']),
     async login() {
       try {
         const credentials = {
@@ -54,12 +52,12 @@ export default {
         };
         const response = await Auth.login(credentials);
         this.msg = response.msg;
-        const token = response.token;
-        const user = response.user;
+        const token = response.data.token;
+        const user = response.data.email;
         this.$store.dispatch("login", { token, user });
         this.$router.push("/Home");
       } catch (error) {
-        this.msg = error;
+        this.msg = error.response.data.message;
       }
     }
   }

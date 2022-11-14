@@ -2,13 +2,12 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-4" style="margin-left: 38%; margin-top: 10%;">
-
         <h3 style="text-align: center;">Register</h3>
 
-        <input type="text" class="form-control" placeholder="Email" v-model="emailInput" />
+        <input type="text" class="form-control" placeholder="Email" v-model="email" />
         <br />
 
-        <input type="password" class="form-control" placeholder="Password" v-model="passwordInput" />
+        <input type="password" class="form-control" placeholder="Password" v-model="password" />
         <br />
 
         <div style="text-align: center;">
@@ -23,13 +22,14 @@
           </p>
         </div>
 
+        <p style="color: red" v-if="msg">{{ msg }}</p>
+
         <div class="alert alert-danger" role="alert" v-if="hienThiThongBaoLoi()">
           <b>Vui lòng kiểm tra lại các lỗi sau:</b>
           <ul>
             <li v-for="error in errors">{{ error }}</li>
           </ul>
         </div>
-
       </div>
     </div>
   </div>
@@ -37,25 +37,51 @@
 
 <script>
 import axios from "axios";
+import Auth from "/xampp/htdocs/vuejs-learn/src/sevice/auth";
+import { mapGetters, mapMutations, mapActions } from "vuex";
+
 export default {
   data() {
     return {
-      passwordInput: "",
-      emailInput: "",
+      email: "",
+      password: "",
       status: 2,
       user: [],
+      msg: "",
 
       dakiemtraloixong: false
     };
   },
 
+  computed: {},
+
   methods: {
-    register() {
-      this.kiemTraDuLieu();
-      if (this.errors.length === 0) {
-        this.$store.dispatch('register', {username: this.emailInput, password: this.passwordInput});
-      } else {
-        console.log(this.errors.length);
+    // register() {
+    //   this.kiemTraDuLieu();
+    //   if (this.errors.length === 0) {
+    //     this.$store.dispatch('register', {username: this.emailInput, password: this.passwordInput});
+    //   } else {
+    //     console.log(this.errors.length);
+    //   }
+    // },
+
+    async register() {
+      try {
+        const credentials = {
+          email: this.email,
+          password: this.password,
+          name: "Ngô Văn Bốn",
+          c_password: this.password
+        };
+        const response = await Auth.register(credentials);
+        const token = response.data.token;
+        console.log(token);
+
+        this.$store.dispatch("register", { token });
+        this.$router.push("/Home");
+      } catch (error) {
+        this.msg = error.response.data.message;
+        console.log(this.msg);
       }
     },
 

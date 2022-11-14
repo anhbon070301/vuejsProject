@@ -12,9 +12,8 @@ import listNew from '../views/news/listnew.vue';
         <newDetail></newDetail>
 
         <listNew></listNew>
-        <div>getters {{this.$store.getters.getUser}}</div>
-    </div>
 
+    </div>
 </template>
 
 

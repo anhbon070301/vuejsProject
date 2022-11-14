@@ -2,6 +2,7 @@
 import Header from "./components/Header.vue";
 import tinhToan from "./components/tinhToan.vue";
 import headerVue from "./views/header.vue";
+import ActionVue from "./views/auth/ActionVue.vue"
 </script>
 
 <template>

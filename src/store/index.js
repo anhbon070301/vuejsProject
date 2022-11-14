@@ -2,20 +2,30 @@ import Axios from 'axios';
 
 import Vuex from 'vuex'
 
+import News from "/xampp/htdocs/vuejs-learn/src/sevice/new"
+
+import news from './module/news';
+
 import createPersistedState from 'vuex-persistedstate'
 
 const getDefaultState = () => {
     return {
-        test: 'aaaaaa',
+        status: 0,
         token: '',
+        product: [],
+        test: 'toi la Bon',
         user: {}
     };
 };
 
 var store = new Vuex.Store({
 
+    modules: {
+        news
+    }, 
+
     strict: true,
-    plugins: [createPersistedState()],
+    //plugins: [createPersistedState()],
     state: getDefaultState(),
 
     getters: {
@@ -24,24 +34,27 @@ var store = new Vuex.Store({
         },
         getUser: state => {
             return state.user;
-        }
+        },
     },
 
-    mutations: {
-        SET_TOKEN: (state, token) => {
-            state.token = token;
-        },
-        SET_USER: (state, user) => {
-            state.user = user;
-        },
-        RESET: state => {
-            Object.assign(state, getDefaultState());
-        }
-    },
+    // mutations: {
+    //     SET_TOKEN: (state, token) => {
+    //         state.token = token;
+    //     },
+    //     SET_USER: (state, user) => {
+    //         state.user = user;
+    //     },
+    //     RESET: state => {
+    //         Object.assign(state, getDefaultState());
+    //     }
+    // },
 
     mutations: {
         SET_PRODUCT(state, product) {
             state.product = product
+        },
+        SET_STATUS(state, status) {
+            state.status = status
         },
         SET_ACCOUNT(state, userName) {
             state.account.userName = userName
@@ -67,24 +80,12 @@ var store = new Vuex.Store({
                 .catch(error => console.log(error));
         },
 
-        register({ }, { username, password }) {
-            axios({
-                method: "post",
-                url: "http://localhost:7882/addProduct.php",
-                data: {
-                    username: username,
-                    password: password
-                }
-            })
-                .then(function (response) {
-                    alert("Thêm thành công");
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+        register({ commit }, { token }) {
+            commit('SET_TOKEN', token);
         },
 
         login: ({ commit, dispatch }, { token, user }) => {
+            commit('SET_STATUS', 2);
             commit('SET_TOKEN', token);
             commit('SET_USER', user);
             // set auth header
@@ -93,8 +94,12 @@ var store = new Vuex.Store({
 
         logout: ({ commit }) => {
             commit('RESET', '');
-        }
+        },
 
+        checkAuthen(token) {
+            return token === "" ? false : true;
+        },
+        
     }
 })
 

@@ -2,9 +2,9 @@ import { createApp, useAttrs, VueElement } from 'vue'
 import App from './App.vue'
 // import './assets/main.css'
 
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import BootstrapVue3 from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
 import router from './router/router'
 import Axios from 'axios'
@@ -18,9 +18,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 
 import store from '../src/store/index'
-import Vuex from 'vuex'
 
-Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
+// Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -28,7 +27,7 @@ app.use(router);
 app.use(pinia);
 app.use(VueX);
 app.use(store);
-app.use(IconsPlugin);
+app.use(BootstrapVue3);
 app.mount('#app');
 
 // createApp(App).mount('#app')
