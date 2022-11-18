@@ -1,13 +1,32 @@
 import axios from 'axios';
+const url = 'http://192.168.100.194:8080/api/';
 export default {
-  getNew() {
+  getNew(Authorization) {
     return axios
-    .get('http://localhost:7882/shop/shop_laravel/public/api/indexNews')
+    .get(url + 'news/', {
+      headers: {
+        'Authorization': Authorization
+      }
+  })
     .then(response => response.data);
   },
-  postNew(credentials) {
+  postNew(credentials, Authorization) {
     return axios
-      .post('http://localhost:7882/shop/shop_laravel/public/api/storeNews', credentials)
+      .post(url + 'news/create', credentials, {
+        headers: {
+          'Authorization': Authorization
+        }
+    })
       .then(response => response.data);
+  },
+  deleteNew(id, Authorization) {
+    return axios
+      .post(url + 'news/delete/' + id, {}, {
+        headers: {
+          'Authorization': Authorization
+        }
+    })
+      .then(response => response.data)
+      .catch(error => console.log(error));;
   },
 };

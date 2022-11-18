@@ -19,7 +19,7 @@ import "bootstrap";
 
 import store from '../src/store/index'
 
-// Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
+//Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
 const app = createApp(App);
 const pinia = createPinia();

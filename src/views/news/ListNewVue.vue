@@ -1,7 +1,5 @@
 <template>
   <AddNewVue></AddNewVue>
-  <button class="btn btn-danger" v-on:click="this.$store.dispatch('getNew')">Reset</button>
-
   <table>
     <thead>
       <th>Title</th>
@@ -14,7 +12,7 @@
         <td>{{ news.title }}</td>
         <td>
           <img
-            :src="'http://localhost:7882/phone/public/images/'+news.image"
+            :src="news.image"
             style="width: 150px"
             alt="k load đc"
           />
@@ -34,22 +32,30 @@ import News from "/xampp/htdocs/vuejs-learn/src/sevice/new";
 import AddNewVue from "./AddNewVue.vue";
 
 export default {
-  created() {
-    this.$store.dispatch("getNew");
+  async created() {
+    //this.$store.dispatch("getNew", this.Authorization);
+    const response = await News.getNew(this.Authorization);
+    this.$store.dispatch('getNew', response.data.data);
+    console.log(response.data.data)
   },
 
   data() {
     return {
-      // Note `isActive` is left out and will not appear in the rendered table
-      fields: ["title", "image", "content", "Action"],
       status: this.$store.state.news.status,
+      Authorization: this.$store.state.token,
     };
   },
 
   methods: {
-    deleteNew(id) {
-      console.log(id);
-    }
+    async deleteNew(id) {
+      try {
+        console.log(this.Authorization);
+        const response = await News.deleteNew(id,this.Authorization);
+        this.msg = response.msg;
+      } catch (error) {
+        this.msg = error.response.data.message;
+      }
+    },
   },
 
   components: {
@@ -57,10 +63,7 @@ export default {
   },
 
   watch: {
-    status: function() {
-      console.log("có thay đổi");
-      this.$store.dispatch("getNew");
-    }
+
   }
 };
 </script>

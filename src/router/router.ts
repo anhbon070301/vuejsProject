@@ -9,7 +9,8 @@ import homeVue from "@/views/home.vue";
 import detailVue from "@/views/detailNew.vue";
 import loginVue from "@/views/auth/login.vue";
 import registerVue from "@/views/auth/register.vue";
-import newVue from "@/views/news/ListNewVue.vue"
+import newVue from "@/views/news/ListNewVue.vue";
+import ShowCategoryVue from "@/views/category/ShowCategoryVue.vue"
 
 const routes = [
     {path: '/tinhToanVue', component: tinhToanVue},
@@ -22,6 +23,7 @@ const routes = [
     {path: '/registerVue', component: registerVue,  name: 'register', meta: { title: 'Register | Cod LUCK' }},
     {path: '/detailVue', component: detailVue, name: 'detail', meta: { title: 'Detail | Cod LUCK' }},
     {path: '/NewVue', component: newVue, name: 'news', meta: { title: 'News | Cod LUCK' }},
+    {path: '/ShowCategoryVue', component: ShowCategoryVue, name: 'ShowCategoryVue', meta: { title: 'Category | Cod LUCK' }},
 
     {path: '/:pathMatch(.*)*', component: TheWelcomeVue}
 ]

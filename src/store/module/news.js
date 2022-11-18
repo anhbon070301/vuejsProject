@@ -1,5 +1,4 @@
-import Axios from 'axios';
-
+const url = 'http://192.168.100.194:8080/api/';
 const state = {
     news: [],
     status: 21,
@@ -17,12 +16,20 @@ const mutations = {
 
 const actions = {
 
-    getNew({ commit }) {
-        Axios
-            .get("http://localhost:7882/shop/shop_laravel/public/api/indexNews")
-            .then(response => response.data)
-            .then(news => { commit('SET_NEWS', news) })
-            .catch(error => console.log(error));
+    // async getNew({ commit }, Authorization) {
+    //     await  Axios
+    //         .get(url + 'news/',  {
+    //             headers: {
+    //               'Authorization': Authorization
+    //             }
+    //         })
+    //         .then(response => response.data)
+    //         .then(news => { commit('SET_NEWS', news) })
+    //         .catch(error => console.log(error));
+    // },
+
+    getNew({commit}, news){
+        commit('SET_NEWS', news);
     },
 
     addNew({commit}, {id, title, content, image, category_id}) {

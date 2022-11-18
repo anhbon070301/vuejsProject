@@ -4,7 +4,9 @@ import Vuex from 'vuex'
 
 import News from "/xampp/htdocs/vuejs-learn/src/sevice/new"
 
-import news from './module/news';
+import news from './module/news'
+
+import category from './module/category';
 
 import createPersistedState from 'vuex-persistedstate'
 
@@ -21,11 +23,12 @@ const getDefaultState = () => {
 var store = new Vuex.Store({
 
     modules: {
-        news
+        news,
+        category
     }, 
 
     strict: true,
-    //plugins: [createPersistedState()],
+    plugins: [createPersistedState()],
     state: getDefaultState(),
 
     getters: {
@@ -74,7 +77,7 @@ var store = new Vuex.Store({
 
         getProduct({ commit }) {
             Axios
-                .get("http://localhost:7882/blog/public/product")
+                .get("http://localhost:7882/shop/shop_laravel/public/api/showProduct")
                 .then(response => response.data)
                 .then(product => { commit('SET_PRODUCT', product) })
                 .catch(error => console.log(error));
