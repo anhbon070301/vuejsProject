@@ -1,14 +1,14 @@
 import category from "/xampp/htdocs/vuejs-learn/src/sevice/sevice";
 
 const state = {
-    category: [],
+    categories: [],
     categoryUpdate: { id: '', name: '' },
-    id: 0
+    id: 144
 };
 
 const mutations = {
-    SET_CATEGORY(state, category) {
-        state.category = category
+    SET_CATEGORY(state, categories) {
+        state.categories = categories
     },
     SET_CATEGORYEDIT(state, { id, name }) {
         state.categoryUpdate = { id, name }
@@ -20,27 +20,26 @@ const mutations = {
 
 const actions = {
 
-    async getCategory({ commit, dispatch }, { token }) {
-        const response = await category.getAll(token, "categories/");
-        console.log(response);
-        commit('SET_CATEGORY', response);
+    getCategory({ commit }, { categories }) {
+        commit('SET_CATEGORY', categories);
+        console.log('dang chay');
     },
 
-    async deleteCategory({ dispatch }, {id, token }) {
-        if (confirm("Bạn muốn xóa dòng này?")) {
-            try {
-                const response = await category.deleteAll(
-                    id,
-                    token,
-                    "categories/delete/"
-                );
-                this.msg = response.msg;
-                dispatch("getCategory", { token: token });
-            } catch (error) {
-                console.log(error)
-            }
-        }
-    },
+    // async deleteCategory({ dispatch }, {id, token }) {
+    //     if (confirm("Bạn muốn xóa dòng này?")) {
+    //         try {
+    //             const response = await category.deleteAll(
+    //                 id,
+    //                 token,
+    //                 "categories/delete/"
+    //             );
+    //             this.msg = response.msg;
+    //             dispatch("getCategory", { token: token });
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+    // },
 
     async postCategory({ dispatch }, { name, token }) {
         try {
@@ -65,7 +64,7 @@ const actions = {
         commit('PUSH_CATEGORY', { id, name })
     },
 
-    updateCategory({dispatch}, {id, name, token}) {
+    updateCategory({ dispatch }, { id, name, token }) {
         const dataUpdate = {
             id: id,
             name: name

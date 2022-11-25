@@ -20,6 +20,8 @@ import "bootstrap";
 import store from '../src/store/index'
 
 //Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -28,6 +30,7 @@ app.use(pinia);
 app.use(VueX);
 app.use(store);
 app.use(BootstrapVue3);
+app.use(ElementPlus);
 app.mount('#app');
 
 // createApp(App).mount('#app')

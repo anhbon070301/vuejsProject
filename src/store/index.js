@@ -2,8 +2,6 @@ import Axios from 'axios';
 
 import Vuex from 'vuex'
 
-import News from "/xampp/htdocs/vuejs-learn/src/sevice/new"
-
 import news from './module/news'
 
 import category from './module/category';
@@ -25,7 +23,7 @@ var store = new Vuex.Store({
     modules: {
         news,
         category
-    }, 
+    },
 
     strict: true,
     plugins: [createPersistedState()],
@@ -102,7 +100,7 @@ var store = new Vuex.Store({
         checkAuthen(token) {
             return token === "" ? false : true;
         },
-        
+
     }
 })
 

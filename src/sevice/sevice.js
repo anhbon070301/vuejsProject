@@ -1,50 +1,32 @@
-import axios from 'axios';
-const url = 'http://192.168.100.194:8080/api/';
+import intantce from '../sevice/Intantce'
 export default {
-  getAll(Authorization, urlF) {
-    return axios
-    .get(url + urlF, {
-      headers: {
-        'Authorization': Authorization
-      }
-  })
-    .then(response => response.data);
-  },
-  postAll(credentials, Authorization, urlF) {
-    return axios
-      .post(url + urlF, credentials, {
-        headers: {
-          'Authorization': Authorization
-        }
-    })
+  getAll(urlF) {
+    return intantce
+      .get(urlF)
       .then(response => response.data);
   },
-  deleteAll(id, Authorization, urlF) {
-    return axios
-      .post(url + urlF + id, {}, {
-        headers: {
-          'Authorization': Authorization
-        }
-    })
+  postAll(credentials, urlF) {
+    return intantce
+      .post(urlF, credentials)
+      .then(response => response.data);
+  },
+  deleteAll(id, urlF) {
+    return intantce
+      .post(urlF + id)
       .then(response => response.data)
       .catch(error => console.log(error));;
   },
-  showById (id, Authorization, urlF) {
-    return axios
-    .get(url + urlF +id, {
-      headers: {
-        'Authorization': Authorization
-      }
-  })
-    .then(response => response.data);
+  showById(id, urlF) {
+    return intantce
+      .get(urlF + id)
+      .then(response => response.data);
   },
-  update (credentials, Authorization, urlF) {
-    return axios
-    .post(`${url}${urlF}`, credentials,{
-      headers: {
-        'Authorization': Authorization
-      }
-  })
-    .then(response => response.data);
+  update(credentials, urlF) {
+    return intantce
+      .post(urlF, credentials)
+      .then(response => {
+
+        return response.data.message
+      });
   }
 };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import ActionVue from "../views/auth/ActionVue.vue"
+import ActionVue from "../views/auth/ActionVue.vue";
 </script>
 <template>
   <nav style="background-color: #1be155;" class="navbar navbar-expand-lg">
@@ -18,29 +18,38 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div
+      v-if="this.$store.state.token"
+      style="margin-left: 100px;"
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+    >
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link class="nav-link" to="/Home">Home</router-link>
+          <router-link class="nav-link header" style="font-weight: bold;" to="/Home">Home</router-link>
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" to="/ShowCategoryVue">Category</router-link>
+          <router-link
+            class="nav-link header"
+            style="font-weight: bold;"
+            to="/ShowCategoryVue"
+          >Category</router-link>
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" to="/NewVue">News</router-link>
+          <router-link class="nav-link header" style="font-weight: bold;" to="/NewVue">News</router-link>
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" to="/axiosTestVue">About</router-link>
+          <router-link class="nav-link header" style="font-weight: bold;" to="/axiosTestVue">About</router-link>
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" to="/axiosTestVue">Contact</router-link>
+          <router-link class="nav-link header" style="font-weight: bold;" to="/axiosTestVue">Contact</router-link>
         </li>
 
-        <li>
+        <li style="margin-left: 600px;">
           <ActionVue></ActionVue>
         </li>
       </ul>
@@ -49,5 +58,7 @@
 </template>
 
 <style>
-
+.header {
+  font-family: sans-serif;
+}
 </style>

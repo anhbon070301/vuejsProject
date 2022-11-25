@@ -1,12 +1,9 @@
 <template>
   <div>
-    <!-- Form -->
-    <el-button class="btn btn-primary" text @click="show()">Add New</el-button>
-
-    <el-dialog v-model="dialogFormVisible" title="Add New">
+    <el-dialog v-model="this.dialogFormVisible" title="Update Category">
       <el-form>
         <el-form-item label="Category ID" :label-width="formLabelWidth">
-          <el-select v-model="dataNew.category_id" class="m-2" placeholder="Select">
+          <el-select v-model="newEdit.category_id" class="m-2" placeholder="Select">
             <el-option
               v-for="item in category.data"
               :key="item.id"
@@ -16,13 +13,14 @@
           </el-select>
         </el-form-item>
         <el-form-item label="Title" :label-width="formLabelWidth">
-          <el-input v-model="dataNew.title" autocomplete="off" />
+          <el-input v-model="newEdit.title" autocomplete="off" />
         </el-form-item>
         <el-form-item label="Content" :label-width="formLabelWidth">
-          <el-input v-model="dataNew.content" autocomplete="off" />
+          <el-input v-model="newEdit.content" autocomplete="off" />
         </el-form-item>
         <el-form-item label="File" :label-width="formLabelWidth">
-          <input type="file" ref="file" v-on:change="onFileSelected" />
+          <input type="file" hidden ref="imageOld" />
+          <input type="file" accept="image/*" ref="image" v-on:change="onFileSelected" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -36,30 +34,30 @@
 </template>
 
 <script>
-import category from "/xampp/htdocs/vuejs-learn/src/store/module/category";
-import { ref } from "vue";
 export default {
-  name: "AddCategoryVue",
   data() {
     return {
-      dialogFormVisible: false,
-      dataNew: { category_id: "", title: "", image: null, content: "" },
-      selectedFile: "",
-      value: ref("")
+      dataUpdate: { id: "", category_id: "", content: "", title: "", image: "" }
     };
   },
   props: {
-    category: []
+    dialogFormVisible: { type: Boolean, default: false },
+    category: [],
+    newEdit: { type: Object, default: null }
   },
   methods: {
-    onFileSelected(e) {
-      this.dataNew.image = e.target.files[0];
-    },
     show() {
       this.dialogFormVisible = true;
     },
+    onFileSelected(e) {
+      this.dataUpdate.image = e.target.files[0];
+    },
     submit() {
-      this.$emit("inputData", this.dataNew);
+      this.dataUpdate.id = this.newEdit.id;
+      this.dataUpdate.category_id = this.newEdit.category_id;
+      this.dataUpdate.content = this.newEdit.content;
+      this.dataUpdate.title = this.newEdit.title;
+      this.$emit("dataUpdate", this.dataUpdate);
       this.dialogFormVisible = false;
     }
   }

@@ -11,21 +11,22 @@ import loginVue from "@/views/auth/login.vue";
 import registerVue from "@/views/auth/register.vue";
 import newVue from "@/views/news/ListNewVue.vue";
 import ShowCategoryVue from "@/views/category/ShowCategoryVue.vue"
+import store from '@/store/index';
 
 const routes = [
-    {path: '/tinhToanVue', component: tinhToanVue},
-    {path: '/HeaderVue', component: HeaderVue},
-    {path: '/watchedVue', component: watchedVue},
+    { path: '/tinhToanVue', component: tinhToanVue },
+    { path: '/HeaderVue', component: HeaderVue },
+    { path: '/watchedVue', component: watchedVue },
 
-    {path: '/', component: loginVue, name: 'login', meta: { title: 'Login | Cod LUCK' }},
-    {path: '/Home', component: homeVue, name: 'home', meta: { title: 'Home | Cod LUCK' }},
-    {path: '/axiosTestVue', component: axiosTestVue, name: 'list', meta: { title: 'List | Cod LUCK' }},
-    {path: '/registerVue', component: registerVue,  name: 'register', meta: { title: 'Register | Cod LUCK' }},
-    {path: '/detailVue', component: detailVue, name: 'detail', meta: { title: 'Detail | Cod LUCK' }},
-    {path: '/NewVue', component: newVue, name: 'news', meta: { title: 'News | Cod LUCK' }},
-    {path: '/ShowCategoryVue', component: ShowCategoryVue, name: 'ShowCategoryVue', meta: { title: 'Category | Cod LUCK' }},
+    { path: '/', component: loginVue, name: 'login', meta: { title: 'Login | Cod LUCK' } },
+    { path: '/Home', component: homeVue, name: 'home', meta: { title: 'Home | Cod LUCK' } },
+    { path: '/axiosTestVue', component: axiosTestVue, name: 'list', meta: { title: 'List | Cod LUCK' } },
+    { path: '/registerVue', component: registerVue, name: 'register', meta: { title: 'Register | Cod LUCK' } },
+    { path: '/detailVue', component: detailVue, name: 'detail', meta: { title: 'Detail | Cod LUCK' } },
+    { path: '/NewVue', component: newVue, name: 'news', meta: { title: 'News | Cod LUCK' } },
+    { path: '/ShowCategoryVue', component: ShowCategoryVue, name: 'ShowCategoryVue', meta: { title: 'Category | Cod LUCK' } },
 
-    {path: '/:pathMatch(.*)*', component: TheWelcomeVue}
+    { path: '/:pathMatch(.*)*', component: TheWelcomeVue }
 ]
 
 const router = createRouter({
@@ -33,7 +34,12 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to) => {
+router.beforeEach((to, from, next) => {
+    if (to.name !== 'login' && to.name !== 'register' && !store.state.token) {
+        next({ name: 'login' })
+    } else {
+        next();
+    }
     document.title = `${to.meta.title}`;
 });
 

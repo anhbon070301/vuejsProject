@@ -1,95 +1,62 @@
 <template>
-  <transition name="dialog">
-    <div v-if="active" class="dialog-backdrop" @click="handleBackdropClick">
-      <div class="dialog-container" @click.stop>
-        <b-form-input disabled v-model="categoryEdit.id"></b-form-input> <br>
-        <b-form-input v-model="categoryEdit.name"></b-form-input> <br>
-        <button class="btn btn-secondary" @click="submit">Update</button>
-        <slot />
-      </div>
-    </div>
-  </transition>
+  <div>
+    <el-dialog v-model="this.dialogFormVisible" title="Update Category">
+      <el-form>
+        <el-form-item label="Category Id" :label-width="formLabelWidth">
+          <el-input v-model="categoryEdit.id" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="Category Name" :label-width="formLabelWidth">
+          <el-input v-model="categoryEdit.name" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="submit">Confirm</el-button>
+        </span>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
-import category from "/xampp/htdocs/vuejs-learn/src/sevice/sevice";
+import category from "/xampp/htdocs/vuejs-learn/src/store/module/category";
 export default {
   data() {
     return {
-      category: { id: "", name: "" },
-      Authorization: this.$store.state.token
+      dataUpdate: { id: "", name: "" }
     };
   },
-
   props: {
-    active: { type: Boolean, default: false },
+    dialogFormVisible: { type: Boolean, default: false },
     categoryEdit: { type: Object, default: null }
   },
-
   methods: {
-    handleBackdropClick() {
-      this.$emit("update:active", false);
+    show() {
+      this.dialogFormVisible = true;
     },
-
-
     submit() {
-      // const credentials = {
-      //   id: this.categoryEdit.id,
-      //   name: this.categoryEdit.name
-      // };
-      // category
-      //   .update(credentials, this.Authorization, "categories/update")
-      //   .then(res => {
-      //     console.log(res.message);
-      //      this.$store.dispatch('getCategory', {token: this.Authorization})
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      const data = {id: this.categoryEdit.id, name: this.categoryEdit.name, token: this.Authorization};
-      this.$store.dispatch('updateCategory', data)
+      this.dataUpdate.id = this.categoryEdit.id;
+      this.dataUpdate.name = this.categoryEdit.name;
+      this.$emit("dataUpdate", this.dataUpdate);
+      this.dialogFormVisible = false;
     }
   }
 };
 </script>
-
 <style scoped>
-.dialog-backdrop {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+.el-button--text {
+  margin-right: 15px;
 }
-
-.dialog-container {
-  max-width: 768px;
-  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
-    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
-  margin-top: 30px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 20px;
+.el-select {
+  width: 300px;
 }
-
-.dialog-enter-active,
-.dialog-leave-active {
-  transition: opacity 0.2s;
+.el-input {
+  width: 300px;
 }
-.dialog-enter,
-.dialog-leave-to {
-  opacity: 0;
-}
-
-.dialog-enter-active .dialog-container,
-.dialog-leave-active .dialog-container {
-  transition: transform 0.4s;
-}
-.dialog-enter .dialog-container,
-.dialog-leave-to .dialog-container {
-  transform: scale(0.9);
+.dialog-footer button:first-child {
+  margin-right: 10px;
 }
 </style>
+
+

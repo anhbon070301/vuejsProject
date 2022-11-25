@@ -29,7 +29,8 @@
 </template>
 
 <script>
-import Auth from "/xampp/htdocs/vuejs-learn/src/sevice/auth";
+// import Auth from "/xampp/htdocs/vuejs-learn/src/sevice/auth";
+import Auth from "../../sevice/auth"
 import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {

@@ -1,78 +1,60 @@
-
 <template>
   <div>
-    <b-button v-b-modal.modal-prevent-closing>Add Category</b-button>
+    <!-- Form -->
+    <el-button class="btn btn-primary" text @click="show()">Add Category</el-button>
 
-    <b-modal
-      id="modal-prevent-closing"
-      ref="modal"
-      title="Add Category"
-      @show="resetModal"
-      @hidden="resetModal"
-      @ok="handleOk"
-    >
-      <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-group label="Name" label-for="name-input" :state="titleState">
-          <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
-        </b-form-group>
-
-        <b-form-group>
-          <p style="color: red" v-if="msg">{{ msg }}</p>
-        </b-form-group>
-      </form>
-    </b-modal>
+    <el-dialog v-model="dialogFormVisible" title="Add Category">
+      <el-form>
+        <el-form-item label="Category Name" :label-width="formLabelWidth">
+          <el-input v-model="name" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="submit">Confirm</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import category from "/xampp/htdocs/vuejs-learn/src/sevice/sevice";
-
+import category from "/xampp/htdocs/vuejs-learn/src/store/module/category";
 export default {
+  name: "AddCategoryVue",
   data() {
     return {
-      Authorization: this.$store.state.token,
-      msg: ""
+      dialogFormVisible: false,
+      name: ""
     };
   },
-
   methods: {
-    resetModal() {
+    show() {
+      this.dialogFormVisible = true;
+    },
+    submit() {
+      this.$emit("inputData", this.name);
       this.name = "";
-      this.nameState = null;
-    },
-    handleOk() {
-      this.handleSubmit();
-    },
-
-    // async postCategory() {
-    //   try {
-    //     const credentials = {
-    //       name: this.name
-    //     };
-
-    //     const response = await category.postAll(
-    //       credentials,
-    //       this.Authorization,
-    //       "categories/create"
-    //     );
-
-    //     const dataPost = {
-    //         id: response.data.id,
-    //       name: response.data.name
-    //     };
-
-    //     this.$store.dispatch("addCategory", dataPost);
-    //     console.log('a'+dataPost)
-    //   } catch (error) {
-    //     this.msg = error.response
-    //   }
-    // },
-
-    handleSubmit() {
-      // this.postCategory();
-       this.$store.dispatch('postCategory', {name: this.name,token: this.Authorization})
+      this.dialogFormVisible = false;
+      console.log("submit dang chay");
     }
-  },
-
+  }
 };
 </script>
+<style scoped>
+.el-button--text {
+  margin-right: 15px;
+}
+.el-select {
+  width: 300px;
+}
+.el-input {
+  width: 300px;
+}
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+</style>
+
+

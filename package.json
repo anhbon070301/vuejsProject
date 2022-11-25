@@ -13,6 +13,7 @@
     "bootstrap": "^5.2.2",
     "bootstrap-vue": "^2.23.1",
     "bootstrap-vue-3": "^0.4.7",
+    "element-plus": "^2.2.21",
     "pinia": "^2.0.23",
     "v-viewer": "^1.6.4",
     "vee-validate": "^4.7.2",

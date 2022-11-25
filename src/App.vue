@@ -2,7 +2,7 @@
 import Header from "./components/Header.vue";
 import tinhToan from "./components/tinhToan.vue";
 import headerVue from "./views/header.vue";
-import ActionVue from "./views/auth/ActionVue.vue"
+import ActionVue from "./views/auth/ActionVue.vue";
 </script>
 
 <template>
@@ -21,6 +21,9 @@ import ActionVue from "./views/auth/ActionVue.vue"
   flex-direction: column;
   position: relative;
   left: 0px;
+}
+.navbar1 {
+  border: 2px, black;
 }
 </style>
 

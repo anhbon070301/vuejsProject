@@ -1,31 +1,29 @@
 <template>
-  <AddCategory></AddCategory>
-  <table style="width: 100%">
-    <thead>
-      <tr style="width: 100%">
-        <th style="width: 10%">Id</th>
-        <th style="width: 70%">Name</th>
-        <th style="width: 20%">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="category in this.$store.state.category.category.data">
-        <td>{{ category.id }}</td>
-        <td>{{ category.name }}</td>
-        <td>
-          <button class="btn btn-success" @click="showEditForm(category.id, category.name)">
-            <i class="fa fa-edit"></i>
-          </button> &emsp;
-          <button class="btn btn-danger" v-on:click="deleteCategory(category.id)">
-            <i class="fa fa-trash"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <UpdateCategory :categoryEdit="this.category" :active.sync="show">
-    <button class="btn btn-warning" type="button" @click="show = !show">Close</button> &emsp;
-  </UpdateCategory>
+  <div class="container">
+    <div class="row">
+      <div style="margin-left:4%" class="col-md-12">
+        <AddCategory @inputData="postData"></AddCategory>
+        <UpdateCategory
+          :categoryEdit="category"
+          :dialogFormVisible="this.dialogFormVisible"
+          @dataUpdate="dataUpdate"
+        ></UpdateCategory>
+        <el-table :data="categories.data" style="width: 100%">
+          <el-table-column label="Date" prop="created_at" />
+          <el-table-column label="Name" prop="name" />
+          <el-table-column align="right">
+            <template #header>
+              <el-input v-model="search" size="small" placeholder="Type to search" />
+            </template>
+            <template #default="scope">
+              <el-button size="small" @click="showEditForm(scope.row.id, scope.row.name)">Edit</el-button>
+              <el-button size="small" type="danger" @click="deleteCategory(scope.row.id)">Delete</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -34,30 +32,70 @@ import AddCategory from "./AddCategoryVue.vue";
 import UpdateCategory from "./UpdateCategoryVue.vue";
 
 export default {
-  async created() {
-    this.$store.dispatch('getCategory', {token: this.Authorization})
+  created() {
+    this.getCategory();
   },
 
   data() {
     return {
       Authorization: this.$store.state.token,
-      show: false,
-      category: { id: "", name: "" }
+      dialogFormVisible: false,
+      category: { id: "", name: "" },
+      categories: []
     };
   },
 
   methods: {
-
     async showEditForm(id, name) {
-      this.show = !this.show;
+      this.dialogFormVisible = !this.dialogFormVisible;
       this.category.id = id;
       this.category.name = name;
     },
 
-    deleteCategory(id) {
-      this.$store.dispatch('deleteCategory', {id:id, token: this.Authorization})
+    async getCategory() {
+      const response = await category.getAll("categories/");
+      this.categories = response;
+
+      console.log("cate", this.categories);
+      return this.categories;
     },
 
+    postData(name) {
+      const dataPost = { name: name };
+      category
+        .postAll(dataPost, "categories/create")
+        .then(res => {
+          console.log(res);
+          this.getCategory();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    dataUpdate(dataUpdate) {
+      category
+        .update(dataUpdate, "categories/update")
+        .then(res => {
+          console.log(res);
+          this.getCategory();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    async deleteCategory(id) {
+      if (confirm("Bạn muốn xóa dòng này?")) {
+        try {
+          const response = await category.deleteAll(id, "categories/delete/");
+          this.msg = response.msg;
+          this.getCategory();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
   },
 
   components: {

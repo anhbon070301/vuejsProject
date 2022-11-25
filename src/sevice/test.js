@@ -1,23 +1,29 @@
-import axios from "axios";
-import { defineStore } from "pinia";
-
-export const useProductStore = defineStore({
-    id: 'counter',
-    state: () => ({
-        counter: 19,
-        product: []
-    }),
-    getters: {
-        getProducts(state) {
-            return state.product;
-        }
+import axios from 'axios';
+// const url = 'http://192.168.100.194:8080/api/';
+import AxiosIntantce from '../sevice/AxiosIntantce'
+export default {
+    getNew() {
+        return AxiosIntantce
+            .get('indexNews')
+            .then(response => response.data);
     },
-    actions: {
-        getProduct() {
-            axios
-                .get("http://localhost:7882/blog/public/product")
-                .then(response => (this.product = response.data))
-                .catch(error => console.log(error));
-        },
-    }
-})
+    postNew(credentials, Authorization) {
+        return axios
+            .post(url + 'news/create', credentials, {
+                headers: {
+                    'Authorization': Authorization
+                }
+            })
+            .then(response => response.data);
+    },
+    deleteNew(id, Authorization) {
+        return axios
+            .post(url + 'news/delete/' + id, {}, {
+                headers: {
+                    'Authorization': Authorization
+                }
+            })
+            .then(response => response.data)
+            .catch(error => console.log(error));;
+    },
+};
