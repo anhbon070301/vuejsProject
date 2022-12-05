@@ -2,9 +2,13 @@
   <div class="container">
     <div class="row">
       <div style="margin-left:4%" class="col-md-12">
-        <AddCategory @inputData="postData"></AddCategory>
+        <div class="title-parent">
+          <h4 style="margin-right: 82%">Categories</h4>
+          <AddCategory :msg="this.msg" @inputData="postData"></AddCategory>
+        </div>
         <UpdateCategory
           :categoryEdit="category"
+          :msg="this.msg"
           :dialogFormVisible="this.dialogFormVisible"
           @dataUpdate="dataUpdate"
         ></UpdateCategory>
@@ -41,12 +45,14 @@ export default {
       Authorization: this.$store.state.token,
       dialogFormVisible: false,
       category: { id: "", name: "" },
-      categories: []
+      categories: [],
+      msg: ""
     };
   },
 
   methods: {
     async showEditForm(id, name) {
+      this.msg = "";
       this.dialogFormVisible = !this.dialogFormVisible;
       this.category.id = id;
       this.category.name = name;
@@ -61,6 +67,7 @@ export default {
     },
 
     postData(name) {
+      this.msg = "";
       const dataPost = { name: name };
       category
         .postAll(dataPost, "categories/create")
@@ -69,7 +76,8 @@ export default {
           this.getCategory();
         })
         .catch(error => {
-          console.log(error);
+          console.log(error.response.data.message);
+          this.msg = error.response.data.message;
         });
     },
 
@@ -79,9 +87,11 @@ export default {
         .then(res => {
           console.log(res);
           this.getCategory();
+          this.dialogFormVisible = false;
         })
         .catch(error => {
           console.log(error);
+          this.msg = error.response.data.message;
         });
     },
 
@@ -115,5 +125,16 @@ export default {
   position: absolute;
   top: 50%;
   left: 5%;
+}
+.example-pagination-block + .example-pagination-block {
+  margin-top: 10px;
+}
+.example-pagination-block .example-demonstration {
+  margin-bottom: 16px;
+}
+.title-parent {
+  display: flex;
+  margin-left: 2%;
+  margin-top: 10px;
 }
 </style>

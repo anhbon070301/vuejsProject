@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- Form -->
-    <el-button class="btn btn-primary" text @click="show()">Add Category</el-button>
+    <el-button type="primary" @click="show()">
+      <i class="fas fa-plus"></i>
+    </el-button>
 
     <el-dialog v-model="dialogFormVisible" title="Add Category">
       <el-form>
@@ -15,6 +17,9 @@
           <el-button type="primary" @click="submit">Confirm</el-button>
         </span>
       </template>
+      <div>
+        <span style="color:red">{{msg}}</span>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -29,6 +34,9 @@ export default {
       name: ""
     };
   },
+  props: {
+    msg: ""
+  },
   methods: {
     show() {
       this.dialogFormVisible = true;
@@ -36,8 +44,8 @@ export default {
     submit() {
       this.$emit("inputData", this.name);
       this.name = "";
+
       this.dialogFormVisible = false;
-      console.log("submit dang chay");
     }
   }
 };

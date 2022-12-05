@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import NewHomeVue from "../views/news/NewHomeVue.vue";
 import ListViewHomeVue from "../views/news/ListViewHomeVue.vue";
-import DetailNewVue from "../views/news/DetailNewVue.vue";
 </script>
 
 <template>
   <div class="container" style="margin-left: 5%;">
-    <DetailNewVue></DetailNewVue>
+    <NewHomeVue></NewHomeVue>
 
     <ListViewHomeVue></ListViewHomeVue>
   </div>
 </template>
 
-<script>
-</script>
 

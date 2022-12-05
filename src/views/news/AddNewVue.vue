@@ -1,12 +1,14 @@
 <template>
   <div>
     <!-- Form -->
-    <el-button class="btn btn-primary" text @click="show()">Add New</el-button>
+    <el-button type="primary" @click="show()">
+      <i class="fas fa-plus"></i>
+    </el-button>
 
     <el-dialog v-model="dialogFormVisible" title="Add New">
       <el-form>
         <el-form-item label="Category ID" :label-width="formLabelWidth">
-          <el-select v-model="dataNew.category_id" class="m-2" placeholder="Select">
+          <el-select v-model="dataNew.category_id" placeholder="Select">
             <el-option
               v-for="item in category.data"
               :key="item.id"
@@ -19,7 +21,7 @@
           <el-input v-model="dataNew.title" autocomplete="off" />
         </el-form-item>
         <el-form-item label="Content" :label-width="formLabelWidth">
-          <el-input v-model="dataNew.content" autocomplete="off" />
+          <el-input type="textarea" v-model="dataNew.content" autocomplete="off" />
         </el-form-item>
         <el-form-item label="File" :label-width="formLabelWidth">
           <input type="file" ref="file" v-on:change="onFileSelected" />
@@ -31,17 +33,20 @@
           <el-button type="primary" @click="submit">Confirm</el-button>
         </span>
       </template>
+      <div>
+        <span style=" color: red">{{this.msg}}</span>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import category from "/xampp/htdocs/vuejs-learn/src/store/module/category";
 import { ref } from "vue";
 export default {
   name: "AddCategoryVue",
   data() {
     return {
+      formLabelWidth: "120px",
       dialogFormVisible: false,
       dataNew: { category_id: "", title: "", image: null, content: "" },
       selectedFile: "",
@@ -49,7 +54,8 @@ export default {
     };
   },
   props: {
-    category: []
+    category: [],
+    msg: ""
   },
   methods: {
     onFileSelected(e) {
@@ -60,6 +66,7 @@ export default {
     },
     submit() {
       this.$emit("inputData", this.dataNew);
+
       this.dialogFormVisible = false;
     }
   }

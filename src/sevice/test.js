@@ -1,29 +1,41 @@
-import axios from 'axios';
-// const url = 'http://192.168.100.194:8080/api/';
-import AxiosIntantce from '../sevice/AxiosIntantce'
+import intantce from '../sevice/AxiosIntantce'
 export default {
-    getNew() {
-        return AxiosIntantce
-            .get('indexNews')
+    getAll(urlF) {
+        return intantce
+            .get(urlF)
             .then(response => response.data);
     },
-    postNew(credentials, Authorization) {
-        return axios
-            .post(url + 'news/create', credentials, {
-                headers: {
-                    'Authorization': Authorization
-                }
-            })
+    postAll(credentials, urlF) {
+        return intantce
+            .post(urlF, credentials)
             .then(response => response.data);
     },
-    deleteNew(id, Authorization) {
-        return axios
-            .post(url + 'news/delete/' + id, {}, {
-                headers: {
-                    'Authorization': Authorization
-                }
-            })
+    deleteAll(id, urlF) {
+        return intantce
+            .post(urlF + id)
             .then(response => response.data)
             .catch(error => console.log(error));;
     },
+    showById(id, urlF) {
+        return intantce
+            .get(urlF + '/' + id)
+            .then(response => { return response.data });
+    },
+    update(credentials, urlF) {
+        return intantce
+            .post(urlF, credentials)
+            .then(response => {
+                return response.data.message
+            });
+    },
+    nextpage(page) {
+        return intantce
+            .get(`indexContact?page=${page}`)
+            .then(res => {
+                return res?.data;
+            })
+            .catch(err => {
+                return Promise.reject(err);
+            });
+    }
 };

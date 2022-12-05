@@ -5,26 +5,30 @@ import TheWelcomeVue from "@/components/TheWelcome.vue";
 import axiosTestVue from "@/components/axiosTest.vue";
 import watchedVue from "@/components/watched.vue";
 
-import homeVue from "@/views/home.vue";
+import HomeVue from "@/views/HomeVue.vue";
 import detailVue from "@/views/detailNew.vue";
-import loginVue from "@/views/auth/login.vue";
-import registerVue from "@/views/auth/register.vue";
-import newVue from "@/views/news/ListNewVue.vue";
+import LoginVue from "@/views/auth/login.vue";
+import RegisterVue from "@/views/auth/register.vue";
+import NewVue from "@/views/news/ListNewVue.vue";
 import ShowCategoryVue from "@/views/category/ShowCategoryVue.vue"
 import store from '@/store/index';
+import ProfileVue from '@/views/auth/ProVue.vue';
+import ListContactVue from '@/views/contact/ListContactVue.vue'
 
 const routes = [
     { path: '/tinhToanVue', component: tinhToanVue },
     { path: '/HeaderVue', component: HeaderVue },
     { path: '/watchedVue', component: watchedVue },
 
-    { path: '/', component: loginVue, name: 'login', meta: { title: 'Login | Cod LUCK' } },
-    { path: '/Home', component: homeVue, name: 'home', meta: { title: 'Home | Cod LUCK' } },
+    { path: '/', component: LoginVue, name: 'login', meta: { title: 'Login | Cod LUCK' } },
+    { path: '/Home', component: HomeVue, name: 'home', meta: { title: 'Home | Cod LUCK' } },
     { path: '/axiosTestVue', component: axiosTestVue, name: 'list', meta: { title: 'List | Cod LUCK' } },
-    { path: '/registerVue', component: registerVue, name: 'register', meta: { title: 'Register | Cod LUCK' } },
-    { path: '/detailVue', component: detailVue, name: 'detail', meta: { title: 'Detail | Cod LUCK' } },
-    { path: '/NewVue', component: newVue, name: 'news', meta: { title: 'News | Cod LUCK' } },
+    { path: '/registerVue', component: RegisterVue, name: 'register', meta: { title: 'Register | Cod LUCK' } },
+    { path: '/detailVue/:id', component: detailVue, name: 'detail', meta: { title: 'Detail | Cod LUCK' } },
+    { path: '/NewVue/:id', component: NewVue, name: 'news', meta: { title: 'News | Cod LUCK' } },
     { path: '/ShowCategoryVue', component: ShowCategoryVue, name: 'ShowCategoryVue', meta: { title: 'Category | Cod LUCK' } },
+    { path: '/Profile', component: ProfileVue, name: 'profile', meta: { title: 'Profile | Cod LUCK' } },
+    { path: '/Contact', component: ListContactVue, name: 'contact', meta: { title: 'Contact | Cod LUCK' } },
 
     { path: '/:pathMatch(.*)*', component: TheWelcomeVue }
 ]

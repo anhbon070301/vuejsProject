@@ -18,6 +18,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 
 import store from '../src/store/index'
+import Paginate from 'vuejs-paginate'
 
 //Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 import ElementPlus from 'element-plus'
@@ -31,6 +32,7 @@ app.use(VueX);
 app.use(store);
 app.use(BootstrapVue3);
 app.use(ElementPlus);
+app.use(Paginate)
 app.mount('#app');
 
 // createApp(App).mount('#app')

@@ -6,13 +6,13 @@
       </template>
     </el-table-column>
     <el-table-column prop="title" label="Name" width="180" />
-    <el-table-column prop="content" label="Address" />
+    <el-table-column prop="content" label="Content" />
   </el-table>
 </template>
 
 <script>
 import News from "../sevice/test";
-import detail from '../components/detail.vue'
+import detail from "../components/detail.vue";
 export default {
   data() {
     return {
@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     async getNew() {
-      const response = await News.getNew();
+      const response = await News.getAll("indexNews");
       this.news = response;
       console.log(this.news);
     }

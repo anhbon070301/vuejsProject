@@ -14,14 +14,8 @@
       <li>
         <router-link class="dropdown-item" to="/axiosTestVue">List</router-link>
       </li>
-      <li>
-        <a class="dropdown-item" href="#">Another action</a>
-      </li>
-      <li v-if="this.$store.state.token === ''">
-        <router-link class="dropdown-item" to="/registerVue">Register</router-link>
-      </li>
-      <li v-if="this.$store.state.token === ''">
-        <router-link class="dropdown-item" to="/">Login</router-link>
+      <li v-if="this.$store.state.token !== ''">
+        <router-link class="dropdown-item" to="/Profile">Profile</router-link>
       </li>
       <li>
         <a

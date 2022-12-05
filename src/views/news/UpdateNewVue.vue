@@ -3,7 +3,7 @@
     <el-dialog v-model="this.dialogFormVisible" title="Update Category">
       <el-form>
         <el-form-item label="Category ID" :label-width="formLabelWidth">
-          <el-select v-model="newEdit.category_id" class="m-2" placeholder="Select">
+          <el-select v-model="newEdit.category_id" placeholder="Select">
             <el-option
               v-for="item in category.data"
               :key="item.id"
@@ -16,7 +16,7 @@
           <el-input v-model="newEdit.title" autocomplete="off" />
         </el-form-item>
         <el-form-item label="Content" :label-width="formLabelWidth">
-          <el-input v-model="newEdit.content" autocomplete="off" />
+          <el-input type="textarea" v-model="newEdit.content" autocomplete="off" />
         </el-form-item>
         <el-form-item label="File" :label-width="formLabelWidth">
           <input type="file" hidden ref="imageOld" />
@@ -29,6 +29,9 @@
           <el-button type="primary" @click="submit">Confirm</el-button>
         </span>
       </template>
+      <div>
+        <span style=" color: red">{{this.msg}}</span>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -37,10 +40,12 @@
 export default {
   data() {
     return {
+      formLabelWidth: "120px",
       dataUpdate: { id: "", category_id: "", content: "", title: "", image: "" }
     };
   },
   props: {
+    msg: "",
     dialogFormVisible: { type: Boolean, default: false },
     category: [],
     newEdit: { type: Object, default: null }

@@ -1,16 +1,20 @@
 <template>
-  <div class="container">
+  <!-- <div class="container">
     <div class="row">
       <div style="margin-left:4%" class="col-md-12">
-        <AddNewVue :category="categories" @inputData="postNew"></AddNewVue>
+        <div class="title-parent">
+          <h4 style="margin-right: 85%">News</h4>
+          <AddNewVue :msg="this.msg" :category="categories" @inputData="postNew"></AddNewVue>
+        </div>
         <UpdateNewVue
+          :msg="this.msg"
           :newEdit="this.newUpdate"
           :category="categories"
           :dialogFormVisible="this.dialogFormVisible"
           @dataUpdate="dataUpdate"
         ></UpdateNewVue>
         <el-table :data="news.data.data" style="width: 100%">
-          <el-table-column label="Title" prop="title" />
+          <el-table-column class="text-break" label="Title" prop="title" />
           <el-table-column label="Date" prop="created_at" />
           <el-table-column label="Image" width="200">
             <template #default="scope">
@@ -22,15 +26,73 @@
               <el-input v-model="search" size="small" placeholder="Type to search" />
             </template>
             <template #default="scope">
-              <el-button
-                size="small"
-                @click="showUpdateForm(scope.row.id, scope.row.category_id, scope.row.content, scope.row.title, scope.row.image)"
-              >Edit</el-button>
+              <el-button size="small" @click="showUpdateForm(scope.row.id)">Edit</el-button>
               <el-button size="small" type="danger" @click="deleteNew(scope.row.id)">Delete</el-button>
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination
+          small
+          background
+          @current-change="handleCurrentchange"
+          layout="prev, pager, next"
+          :total="news.data.total"
+          class="mt-4"
+        />
       </div>
+    </div>
+  </div>-->
+  <div>
+    <div class="page">
+      <el-card class="box-card" style="margin-left:5%; width:70%; margin-top:20px;">
+        <div v-for="item in news.data" :key="item">
+          <div @click="showNew(item.id)" class="col-sm-24 new-parent">
+            <div class="new-child">
+              <span>
+                <b>{{item.title}}</b>
+              </span>
+              <p>{{item.content}}</p>
+            </div>
+            <div class="new-child-image">
+              <img :src="item.image" style="width:150px;" alt />
+            </div>
+          </div>
+          <br />
+        </div>
+      </el-card>
+      <div style="width:30%; margin-top:20px; margin-left:2%;">
+        <img
+          style="width:100%;"
+          src="https://tse4.mm.bing.net/th?id=OIP.2xvSj_JUFBFDeUzlUlG3xQAAAA&pid=Api&P=0"
+        />
+        &emsp;
+        <img
+          style="width:100%;"
+          src="https://tse4.mm.bing.net/th?id=OIP.2xvSj_JUFBFDeUzlUlG3xQAAAA&pid=Api&P=0"
+        />
+        &emsp;
+        <img
+          style="width:100%;"
+          src="https://tse4.mm.bing.net/th?id=OIP.2xvSj_JUFBFDeUzlUlG3xQAAAA&pid=Api&P=0"
+        />
+        &emsp;
+        <img
+          style="width:100%;"
+          src="https://tse4.mm.bing.net/th?id=OIP.2xvSj_JUFBFDeUzlUlG3xQAAAA&pid=Api&P=0"
+        />
+        &emsp;
+        <label type="hidden" for>{{setIdCategory}}</label>
+      </div>
+    </div>
+    <div style="margin-left: 50%">
+      <el-pagination
+        small
+        background
+        @current-change="handleCurrentchange"
+        layout="prev, pager, next"
+        :total="news.total"
+        class="mt-4"
+      />
     </div>
   </div>
 </template>
@@ -45,16 +107,40 @@ import UpdateNewVue from "./UpdateNewVue.vue";
 export default {
   data() {
     return {
+      idCategory: 0,
       news: [],
       categories: [],
       dialogFormVisible: false,
-      newUpdate: { id: "", category_id: "", content: "", title: "", image: "" }
+      newUpdate: {},
+      msg: ""
     };
   },
 
   created() {
     this.getCategory();
-    this.getNew();
+
+    if (this.idCategory == 0) {
+      this.getNew();
+    }
+  },
+
+  watch: {
+    numberA: function() {
+      // this.getNewByCategory(this.idCategory);
+      console.log("ddang chay");
+    }
+  },
+
+  computed: {
+    setIdCategory: function() {
+      this.idCategory = this.$route.params.id;
+
+      if (this.idCategory == 0) {
+        return this.getNew();
+      } else {
+        return this.getNewByCategory(this.idCategory);
+      }
+    }
   },
 
   methods: {
@@ -62,7 +148,19 @@ export default {
       news
         .getAll("news/")
         .then(res => {
-          this.news = res;
+          this.news = res.data;
+          console.log("data", res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    getNewByCategory(category_id) {
+      news
+        .getbyParams("news/list-news-category", { category_id })
+        .then(res => {
+          this.news = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -89,17 +187,23 @@ export default {
           this.getNew();
         })
         .catch(error => {
-          console.log(error);
+          console.log(error.response.data);
+          this.msg = error.response.data.message;
         });
     },
 
-    showUpdateForm(id, category_id, content, title, image) {
+    showUpdateForm(id) {
+      this.msg = "";
       this.dialogFormVisible = !this.dialogFormVisible;
-      this.newUpdate.id = id;
-      this.newUpdate.category_id = category_id;
-      this.newUpdate.content = content;
-      this.newUpdate.title = title;
-      this.newUpdate.image = image;
+      news
+        .showById(id, "news/detail/")
+        .then(res => {
+          console.log(res);
+          this.newUpdate = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     dataUpdate(dataUpdate) {
@@ -108,9 +212,11 @@ export default {
         .then(res => {
           console.log(res);
           this.getNew();
+          this.dialogFormVisible = false;
         })
         .catch(err => {
           console.log(err);
+          this.msg = err.response.data.message;
         });
     },
 
@@ -126,6 +232,16 @@ export default {
             console.log(err);
           });
       }
+    },
+
+    showNew(id) {
+      this.$router.push("/detailVue/" + id);
+    },
+
+    handleCurrentchange(val) {
+      news.nextpage(val).then(response => {
+        this.news = response.data;
+      });
     }
   },
 
@@ -146,5 +262,39 @@ export default {
   position: absolute;
   top: 50%;
   left: 5%;
+}
+.example-pagination-block + .example-pagination-block {
+  margin-top: 10px;
+}
+.example-pagination-block .example-demonstration {
+  margin-bottom: 16px;
+}
+.title-parent {
+  display: flex;
+  margin-left: 2%;
+  margin-top: 10px;
+}
+.text {
+  font-size: 14px;
+}
+
+.item {
+  padding: 18px 0;
+}
+
+.box-card {
+  width: 480px;
+}
+.new-parent {
+  display: flex;
+}
+.new-child {
+  width: 90%;
+}
+.new-child-image {
+  width: 30%;
+}
+.page {
+  display: flex;
 }
 </style>

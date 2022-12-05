@@ -28,5 +28,20 @@ export default {
 
         return response.data.message
       });
+  },
+  nextpage(page) {
+    return intantce
+      .get(`news?page=${page}`)
+      .then(res => {
+        return res?.data;
+      })
+      .catch(err => {
+        return Promise.reject(err);
+      });
+  },
+  getbyParams(urlF, id) {
+    return intantce
+      .post(urlF, id)
+      .then(response => response.data);
   }
 };

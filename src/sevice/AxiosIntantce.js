@@ -6,8 +6,7 @@ const AxiosIntance = axios.create({
 });
 
 AxiosIntance.interceptors.request.use(function (config) {
-    const token = store.state.token;
-    config.headers.Authorization = token;
+    config.headers['Access-Control-Allow-Origin'] = `*`;
 
     return config;
 });

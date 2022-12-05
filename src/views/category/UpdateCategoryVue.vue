@@ -15,21 +15,25 @@
           <el-button type="primary" @click="submit">Confirm</el-button>
         </span>
       </template>
+      <div>
+        <span style="color:red">{{msg}}</span>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import category from "/xampp/htdocs/vuejs-learn/src/store/module/category";
 export default {
   data() {
     return {
+      formLabelWidth: "120px",
       dataUpdate: { id: "", name: "" }
     };
   },
   props: {
     dialogFormVisible: { type: Boolean, default: false },
-    categoryEdit: { type: Object, default: null }
+    categoryEdit: { type: Object, default: null },
+    msg: ""
   },
   methods: {
     show() {
