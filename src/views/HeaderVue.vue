@@ -119,7 +119,6 @@ export default {
   display: block;
   color: black;
   text-decoration: none;
-  height: 80%;
 }
 .dropdown {
   margin-top: 18px;
@@ -129,6 +128,6 @@ export default {
 }
 .active {
   border-bottom: 5px solid rgb(9, 92, 49);
-  height: 100%;
+  height: 80%;
 }
 </style>

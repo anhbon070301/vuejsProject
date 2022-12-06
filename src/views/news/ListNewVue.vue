@@ -42,6 +42,7 @@
       </div>
     </div>
   </div>-->
+
   <div>
     <div class="page">
       <el-card class="box-card" style="margin-left:5%; width:70%; margin-top:20px;">
@@ -121,14 +122,16 @@ export default {
 
     if (this.idCategory == 0) {
       this.getNew();
+    } else {
+      return this.getNewByCategory(this.$route.params.id);
     }
   },
 
   watch: {
-    numberA: function() {
-      // this.getNewByCategory(this.idCategory);
-      console.log("ddang chay");
-    }
+    // idCategorySet: function() {
+    //   // this.getNewByCategory(this.idCategory);
+    //   console.log("ddang chay 111111");
+    // },
   },
 
   computed: {
@@ -140,6 +143,9 @@ export default {
       } else {
         return this.getNewByCategory(this.idCategory);
       }
+    },
+    idCategorySet() {
+      return this.$route.params.id;
     }
   },
 
@@ -287,6 +293,7 @@ export default {
 }
 .new-parent {
   display: flex;
+  cursor: pointer;
 }
 .new-child {
   width: 90%;
