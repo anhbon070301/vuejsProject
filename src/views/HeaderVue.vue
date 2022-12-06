@@ -37,7 +37,6 @@
           <el-dropdown>
             <span
               :class="(this.$route.name == 'ShowCategoryVue' ? 'active' : '') + ' header dropdown'"
-              @click="showCategory"
             >Category</span>
             <template #dropdown>
               <el-dropdown-menu v-for="item in categories" :key="item.id">

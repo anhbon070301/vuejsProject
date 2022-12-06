@@ -120,7 +120,7 @@ export default {
   created() {
     this.getCategory();
 
-    if (this.idCategory == 0) {
+    if (this.$route.params.id == 0) {
       this.getNew();
     } else {
       return this.getNewByCategory(this.$route.params.id);
@@ -132,6 +132,10 @@ export default {
     //   // this.getNewByCategory(this.idCategory);
     //   console.log("ddang chay 111111");
     // },
+    idCategory: function() {
+      console.log("đang chạy");
+      //this.getNewByCategory(this.idCategory);
+    }
   },
 
   computed: {

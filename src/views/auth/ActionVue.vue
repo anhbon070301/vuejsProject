@@ -12,7 +12,7 @@
 
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
       <li>
-        <router-link class="dropdown-item" to="/axiosTestVue">List</router-link>
+        <router-link class="dropdown-item" to="/ShowCategoryVue">List</router-link>
       </li>
       <li v-if="this.$store.state.token !== ''">
         <router-link class="dropdown-item" to="/Profile">Profile</router-link>
