@@ -44,6 +44,11 @@
   </div>-->
 
   <div>
+    <div style="margin-left: 5%; margin-top: 20px;">
+      <span>
+        <b>{{setCategory}}</b>
+      </span>
+    </div>
     <div class="page">
       <el-card class="box-card" style="margin-left:5%; width:70%; margin-top:20px;">
         <div v-for="item in news.data" :key="item">
@@ -113,14 +118,15 @@ export default {
       categories: [],
       dialogFormVisible: false,
       newUpdate: {},
-      msg: ""
+      msg: "",
+      category: ""
     };
   },
 
   created() {
     this.getCategory();
 
-    if (this.$route.params.id == 0) {
+    if (this.$route.params.id == "null") {
       this.getNew();
     } else {
       return this.getNewByCategory(this.$route.params.id);
@@ -145,11 +151,19 @@ export default {
       if (this.idCategory == 0) {
         return this.getNew();
       } else {
+        this.getCategoryById();
         return this.getNewByCategory(this.idCategory);
       }
     },
     idCategorySet() {
       return this.$route.params.id;
+    },
+    setCategory() {
+      if (this.category != null) {
+        return this.category;
+      } else {
+        return "All";
+      }
     }
   },
 
@@ -183,6 +197,17 @@ export default {
         .then(res => {
           this.categories = res;
           console.log("cate", this.categories);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    getCategoryById() {
+      category
+        .showById(this.$route.params.id, "/categories/detail/")
+        .then(res => {
+          this.category = res.data.name;
         })
         .catch(err => {
           console.log(err);

@@ -49,7 +49,7 @@
         <li class="nav-item">
           <router-link
             :class="(this.$route.name == 'news' ? 'active' : '') + ' header'"
-            :to="'/NewVue/'+0"
+            :to="'/NewVue/'+ null"
           >News</router-link>
         </li>
 
